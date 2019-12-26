@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 import mysql.connector
 
 def setup_DB():
@@ -124,9 +125,14 @@ def getMonthlyData():
     month = entry2.get()
     sql = "SELECT amount FROM Expenditure3 WHERE Year = " + year + " AND Month = " + month
 
-    mycursor.execute(sql)
-    result = mycursor.fetchall()
-    
+    try:
+        mycursor.execute(sql)
+        result = mycursor.fetchall()
+
+    except:
+        messagebox.showerror("Error", "Enter month and year correctly")
+        return
+
     sum = 0
     for i in result:
         sum += i[0]
